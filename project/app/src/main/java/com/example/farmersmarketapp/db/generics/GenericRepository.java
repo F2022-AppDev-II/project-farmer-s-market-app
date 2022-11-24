@@ -17,7 +17,12 @@ public abstract class GenericRepository<T> implements IGenericRepository<T>{
     }
 
     @Override
-    public LiveData<List> getAll() {
+    public LiveData<List<T>> getAll() {
+        return null;
+    }
+
+    @Override
+    public T get(int id){
         return null;
     }
 
@@ -39,5 +44,10 @@ public abstract class GenericRepository<T> implements IGenericRepository<T>{
     @Override
     public void delete(T obj) {
 
+    }
+
+    @Override
+    public int getSize(){
+        return 0;
     }
 }

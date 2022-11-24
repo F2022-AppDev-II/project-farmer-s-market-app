@@ -41,6 +41,9 @@ public class Product {
     @ColumnInfo(name = "recentlyViewed")
     private boolean recentlyViewed;
 
+    @ColumnInfo(name = "viewedPriority")
+    private Integer viewedPriority;
+
     public Product(@NonNull String productName, String description, String harvestByFarmer, Integer category, double price, String image){
         this.productName = productName;
         this.description = description;
@@ -49,6 +52,7 @@ public class Product {
         this.price = price;
         this.image = image;
         this.recentlyViewed = false;
+        this.viewedPriority = 0;
     }
 
     @Ignore
@@ -61,6 +65,7 @@ public class Product {
         this.price = price;
         this.image = image;
         this.recentlyViewed = false;
+        this.viewedPriority = 0;
     }
 
     public int getId() {
@@ -129,5 +134,13 @@ public class Product {
 
     public void setRecentlyViewed(boolean recentlyViewed) {
         this.recentlyViewed = recentlyViewed;
+    }
+
+    public Integer getViewedPriority() {
+        return viewedPriority;
+    }
+
+    public void setViewedPriority(Integer viewedPriority) {
+        this.viewedPriority = viewedPriority;
     }
 }

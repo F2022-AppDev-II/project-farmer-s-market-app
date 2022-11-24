@@ -8,7 +8,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.farmersmarketapp.db.models.CartItem;
+
 public abstract class FarmerRoomDatabase extends RoomDatabase {
+
+    public abstract ProductDao productDao();
+    public abstract CartItemDao cartItemDao();
 
     private static FarmerRoomDatabase INSTANCE;
 
@@ -37,13 +42,13 @@ public abstract class FarmerRoomDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>{
 
+        PopulateDbAsync(FarmerRoomDatabase db){
+
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
             return null;
-        }
-
-        PopulateDbAsync(FarmerRoomDatabase db){
-
         }
     }
 }

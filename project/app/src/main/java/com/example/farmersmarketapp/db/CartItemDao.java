@@ -14,6 +14,7 @@ import java.util.List;
 public abstract class CartItemDao extends GenericDao<CartItem> {
 
     private static final String TABLE_NAME = "CartItem";
+    private static final String PRODUCT_TABLE_NAME = "Product";
 
     protected CartItemDao() {
         super(TABLE_NAME);
@@ -34,5 +35,6 @@ public abstract class CartItemDao extends GenericDao<CartItem> {
     @Query("SELECT COUNT(*) FROM " + TABLE_NAME)
     public abstract int getSize();
 
-
+    @Query("UPDATE " + TABLE_NAME + " SET lineTotal = (SELECT price FROM "+PRODUCT_TABLE_NAME + " WHERE id = :productId) * quantity WHERE id = :id")
+    public abstract void setLineTotal(int id, int productId);
 }
