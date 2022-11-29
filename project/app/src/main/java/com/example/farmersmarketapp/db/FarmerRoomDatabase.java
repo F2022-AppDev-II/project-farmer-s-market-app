@@ -4,12 +4,15 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
+import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.farmersmarketapp.db.models.CartItem;
+import com.example.farmersmarketapp.db.models.Product;
 
+@Database(entities = {Product.class, CartItem.class}, version = 1, exportSchema = true)
 public abstract class FarmerRoomDatabase extends RoomDatabase {
 
     public abstract ProductDao productDao();

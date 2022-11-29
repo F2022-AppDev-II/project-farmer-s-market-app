@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cartViewModel = new ViewModelProvider(this).get(FarmerViewModel.class);
+
 
         initializeVariable();
         setUpList();
@@ -54,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
     }
     private void initializeVariable() {
-        cartViewModel = new ViewModelProvider(this).get(FarmerViewModel.class);
         productItems =new ArrayList<>();
 
         recyclerView = findViewById(R.id.mainRecyclerView);
