@@ -13,12 +13,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import com.example.farmersmarketapp.db.CartItemDao;
+import com.example.farmersmarketapp.db.CartItemRepository;
 import com.example.farmersmarketapp.db.FarmerViewModel;
 import com.example.farmersmarketapp.utils.adapter.ProductItemAdapter;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 import com.example.farmersmarketapp.views.DetailedActivity;
 import com.example.farmersmarketapp.views.SettingsActivity;
+import com.example.farmersmarketapp.views.ShoppingCartActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
                 Toast.makeText(this, "Settings", Toast.LENGTH_SHORT);
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.shopping_cart:
+                Intent intent1 = new Intent(this, ShoppingCartActivity.class);
+                startActivity(intent1);
                 return true;
             default:
 
@@ -113,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
     @Override
     public void onAddToCartBtnClicked(ProductItem productItem) {
-
+        //Add item to cart DB
+//        CartItemRepository cartDb = Room.databaseBuilder(getApplicationContext(), CartItemDao.class)
     }
 }

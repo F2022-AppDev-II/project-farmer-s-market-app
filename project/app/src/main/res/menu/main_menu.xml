@@ -5,10 +5,16 @@
     tools:context="com.example.farmersmarketapp.MainActivity"
     >
     <item
+        android:title="Cart"
+        android:id="@+id/shopping_cart"
+        android:icon="@drawable/ic_cart_icon"
+        app:showAsAction="ifRoom"></item>
+    <item
         app:showAsAction="never"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:id="@+id/settingsOption"
 
         ></item>
+
 </menu>

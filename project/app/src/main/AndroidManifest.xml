@@ -13,13 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FarmersMarketApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".views.ShoppingCartActivity"
+            android:exported="false"
+            android:label="Shopping Cart"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".views.DetailedActivity"
+            android:exported="false"
             android:label="Details"
-            android:parentActivityName=".MainActivity"
-            android:exported="false">
-
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="./MainActivity" />
@@ -36,17 +43,17 @@
         <activity
             android:name=".views.SettingsActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity"
-            android:label="Settings">
-
+            android:label="Settings"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value=".MainActivity" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
