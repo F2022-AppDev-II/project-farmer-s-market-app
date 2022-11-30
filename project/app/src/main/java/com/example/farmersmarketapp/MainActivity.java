@@ -1,6 +1,7 @@
 package com.example.farmersmarketapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,13 +12,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import com.example.farmersmarketapp.db.CartItemDao;
-import com.example.farmersmarketapp.db.CartItemRepository;
 import com.example.farmersmarketapp.db.FarmerViewModel;
+import com.example.farmersmarketapp.enums.ProductCategory;
 import com.example.farmersmarketapp.utils.adapter.ProductItemAdapter;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 import com.example.farmersmarketapp.views.DetailedActivity;
@@ -34,18 +34,30 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     private List<ProductItem> productItems;
     private ProductItemAdapter productAdapter;
     private FarmerViewModel cartViewModel;
+
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
         cartViewModel = new ViewModelProvider(this).get(FarmerViewModel.class);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initializeVariable();
         setUpList();
         productAdapter.setProductItems(productItems);
+        productAdapter.setAdminModeSetting(sharedPreferences.getBoolean(SettingsActivity.ADMIN_MODE, false));
         recyclerView.setAdapter(productAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        productAdapter.setAdminModeSetting(sharedPreferences.getBoolean(SettingsActivity.ADMIN_MODE, false));
     }
 
     @Override
@@ -81,23 +93,19 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
     private  void setUpList(){
         productItems = new ArrayList<>();
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Nike", "apple","fruit", R.drawable.apple, 1.99));
-
-
-
-
-
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
     }
+
     private void initializeVariable() {
         productItems =new ArrayList<>();
 
@@ -105,12 +113,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         productAdapter = new ProductItemAdapter( this);
-
-
-
     }
-
-
 
     @Override
     public void onCardClicked(ProductItem productItem) {

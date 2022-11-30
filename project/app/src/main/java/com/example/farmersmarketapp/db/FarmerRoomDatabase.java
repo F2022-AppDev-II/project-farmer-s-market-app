@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.farmersmarketapp.db.models.CartItem;
 import com.example.farmersmarketapp.db.models.Product;
 
-@Database(entities = {Product.class, CartItem.class}, version = 1, exportSchema = true)
+@Database(entities = {Product.class, CartItem.class}, version = 2, exportSchema = true)
 public abstract class FarmerRoomDatabase extends RoomDatabase {
 
     public abstract ProductDao productDao();

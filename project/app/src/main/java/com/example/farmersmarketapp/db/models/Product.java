@@ -31,10 +31,6 @@ public class Product {
     @NonNull
     private Integer category;
 
-    @Nullable
-    @ColumnInfo(name = "image")
-    private String image;
-
     @ColumnInfo(name = "price")
     private double price;
 
@@ -44,26 +40,24 @@ public class Product {
     @ColumnInfo(name = "viewedPriority")
     private Integer viewedPriority;
 
-    public Product(@NonNull String productName, String description, String harvestByFarmer, Integer category, double price, String image){
+    public Product(@NonNull String productName, String description, String harvestByFarmer, Integer category, double price){
         this.productName = productName;
         this.description = description;
         this.harvestByFarmer = harvestByFarmer;
         this.category = category;
         this.price = price;
-        this.image = image;
         this.recentlyViewed = false;
         this.viewedPriority = 0;
     }
 
     @Ignore
-    public Product(int id, @NonNull String productName, String description, String harvestByFarmer, Integer category, double price, String image){
+    public Product(int id, @NonNull String productName, String description, String harvestByFarmer, Integer category, double price){
         this.id = id;
         this.productName = productName;
         this.description = description;
         this.harvestByFarmer = harvestByFarmer;
         this.category = category;
         this.price = price;
-        this.image = image;
         this.recentlyViewed = false;
         this.viewedPriority = 0;
     }
@@ -109,15 +103,6 @@ public class Product {
 
     public void setHarvestByFarmer(String harvestByFarmer) {
         this.harvestByFarmer = harvestByFarmer;
-    }
-
-    @Nullable
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(@Nullable String image) {
-        this.image = image;
     }
 
     public double getPrice() {
