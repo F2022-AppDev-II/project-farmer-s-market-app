@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.farmersmarketapp.MainActivity"
+    >
+    <item
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        android:id="@+id/settingsOption"
+
+        ></item>
+</menu>
