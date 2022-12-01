@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         recyclerView = findViewById(R.id.mainRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        productAdapter = new ProductItemAdapter( this);
+        productAdapter = new ProductItemAdapter( this, getApplicationContext());
     }
 
     @Override
@@ -126,5 +126,17 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     public void onAddToCartBtnClicked(ProductItem productItem) {
         //Add item to cart DB
 //        CartItemRepository cartDb = Room.databaseBuilder(getApplicationContext(), CartItemDao.class)
+    }
+
+    @Override
+    public void onUpdateProductItem(ProductItem productItem) {
+        Intent intent = new Intent(MainActivity.this, UpdateProductActivity.class);
+        intent.putExtra("productItem", productItem);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteProductItem(ProductItem productItem) {
+
     }
 }

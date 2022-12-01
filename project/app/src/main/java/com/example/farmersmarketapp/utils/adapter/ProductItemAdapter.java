@@ -1,17 +1,28 @@
 package com.example.farmersmarketapp.utils.adapter;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersmarketapp.R;
+import com.example.farmersmarketapp.db.FarmerViewModel;
+import com.example.farmersmarketapp.db.models.Product;
 import com.example.farmersmarketapp.utils.model.ProductItem;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -21,8 +32,13 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
     private List<ProductItem> productItemsList;
     private ProductClickedListeners productClickedListeners;
-    public ProductItemAdapter(ProductClickedListeners productClickedListeners){
+    private FarmerViewModel viewModel;
+    private Context ctx;
+
+    public ProductItemAdapter(ProductClickedListeners productClickedListeners, Context ctx){
         this.productClickedListeners = productClickedListeners;
+        this.viewModel = viewModel;
+        this.ctx = ctx;
     }
 
     public void setProductItems(List<ProductItem> productItemsList) {
@@ -65,6 +81,29 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         else {
             holder.adminSettings.setVisibility(View.GONE);
         }
+
+        holder.adminSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(ctx, holder.adminSettings);
+                popupMenu.inflate(R.menu.admin_options);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.admin_update:
+                                productClickedListeners.onUpdateProductItem(productItem);
+                                return true;
+                            case R.id.admin_delete:
+                                productClickedListeners.onDeleteProductItem(productItem);
+                                notifyDataSetChanged();
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
     }
 
     public void setAdminModeSetting(boolean isAdmin){
@@ -95,9 +134,12 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         }
     }
 
-    public interface ProductClickedListeners{
+    public interface ProductClickedListeners {
         void onCardClicked(ProductItem productItem);
 
         void onAddToCartBtnClicked(ProductItem productItem);
+
+        void onUpdateProductItem(ProductItem productItem);
+        void onDeleteProductItem(ProductItem productItem);
     }
 }

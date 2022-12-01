@@ -7,6 +7,7 @@ import com.example.farmersmarketapp.db.models.Product;
 
 public class ProductItem implements Parcelable {
 
+    private Product product;
 
     private String productName;
 
@@ -21,6 +22,7 @@ public class ProductItem implements Parcelable {
     private double price;
 
     public ProductItem(Product product, Integer image){
+        this.product = product;
         this.productName = product.getProductName();
         this.harvestByFarmer = product.getHarvestByFarmer();
         this.description = product.getDescription();
@@ -122,5 +124,8 @@ public class ProductItem implements Parcelable {
         parcel.writeDouble(price);
     }
 
+    public Product getProduct() {
+        return product;
+    }
 }
 
