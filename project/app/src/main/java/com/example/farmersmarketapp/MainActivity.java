@@ -1,5 +1,6 @@
 package com.example.farmersmarketapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -62,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        Toast.makeText(this, "Settings not working", Toast.LENGTH_SHORT);
 
         switch (item.getItemId()){
             case R.id.settingsOption:
@@ -119,7 +119,24 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     public void onCardClicked(ProductItem productItem) {
         Intent intent = new Intent(MainActivity.this, DetailedActivity.class);
         intent.putExtra("productItem", productItem);
+
+        //Before starting activity save the item clicked
+
+
+
         startActivity(intent);
+    }
+
+    private void saveLastProduct(ProductItem item){
+        SharedPreferences sharedPref = this.getSharedPreferences("preferences", Context.MODE_PRIVATE);
+
+        //Editor
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        //Key and values stored
+        //Currently using the list, convert to use db later
+        editor.putInt("recent", item.getId());
+
     }
 
     @Override
