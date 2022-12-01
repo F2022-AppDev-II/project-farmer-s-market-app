@@ -16,6 +16,9 @@ import com.example.farmersmarketapp.utils.model.ProductItem;
 import java.util.List;
 
 public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.ProductItemViewHolder> {
+
+    private static boolean ADMIN_MODE;
+
     private List<ProductItem> productItemsList;
     private ProductClickedListeners productClickedListeners;
     public ProductItemAdapter(ProductClickedListeners productClickedListeners){
@@ -55,6 +58,17 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                 productClickedListeners.onAddToCartBtnClicked(productItem);
             }
         });
+
+        if (ADMIN_MODE){
+            holder.adminSettings.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.adminSettings.setVisibility(View.GONE);
+        }
+    }
+
+    public void setAdminModeSetting(boolean isAdmin){
+        ADMIN_MODE = isAdmin;
     }
 
     @Override
@@ -66,7 +80,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
     }
 
     public class ProductItemViewHolder extends RecyclerView.ViewHolder {
-        private ImageView productImage, addToCartBtn;
+        private ImageView productImage, addToCartBtn, adminSettings;
         private TextView productName, productPrice, productSoldBy;
         private CardView productCardView;
         public ProductItemViewHolder(@NonNull View itemView) {
@@ -77,8 +91,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             productPrice = itemView.findViewById(R.id.eachProductPriceTv);
             productSoldBy = itemView.findViewById(R.id.eachSoldByTv);
             productCardView = itemView.findViewById(R.id.eachShoeCardView);
-
-
+            adminSettings = itemView.findViewById(R.id.eachProductAdminSettings);
         }
     }
 

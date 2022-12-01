@@ -3,6 +3,8 @@ package com.example.farmersmarketapp.utils.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.farmersmarketapp.db.models.Product;
+
 public class ProductItem implements Parcelable {
 
 
@@ -12,13 +14,22 @@ public class ProductItem implements Parcelable {
 
     private String description;
 
-    private String category;
+    private Integer category;
 
-    private int image;
+    private Integer image;
 
     private double price;
 
-    public ProductItem(String productName, String harvestByFarmer, String description, String category, int image, double price) {
+    public ProductItem(Product product, Integer image){
+        this.productName = product.getProductName();
+        this.harvestByFarmer = product.getHarvestByFarmer();
+        this.description = product.getDescription();
+        this.category = product.getCategory();
+        this.image = image;
+        this.price = product.getPrice();
+    }
+
+    public ProductItem(String productName, String harvestByFarmer, String description, Integer category, Integer image, double price) {
         this.productName = productName;
         this.harvestByFarmer = harvestByFarmer;
         this.description = description;
@@ -31,7 +42,7 @@ public class ProductItem implements Parcelable {
         productName = in.readString();
         harvestByFarmer = in.readString();
         description = in.readString();
-        category = in.readString();
+        category = in.readInt();
         image = in.readInt();
         price = in.readDouble();
     }
@@ -72,19 +83,19 @@ public class ProductItem implements Parcelable {
         this.description = description;
     }
 
-    public String getCategory() {
+    public Integer getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Integer category) {
         this.category = category;
     }
 
-    public int getImage() {
+    public Integer getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(Integer image) {
         this.image = image;
     }
 
@@ -106,7 +117,7 @@ public class ProductItem implements Parcelable {
         parcel.writeString(productName);
         parcel.writeString(harvestByFarmer);
         parcel.writeString(description);
-        parcel.writeString(category);
+        parcel.writeInt(category);
         parcel.writeInt(image);
         parcel.writeDouble(price);
     }

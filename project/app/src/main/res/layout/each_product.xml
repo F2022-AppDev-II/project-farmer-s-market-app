@@ -74,6 +74,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/eachProductAddToCartBtn" />
+
+        <ImageView
+            android:id="@+id/eachProductAdminSettings"
+            android:layout_width="27dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/eachProductAddToCartBtn"
+            app:srcCompat="@android:drawable/arrow_down_float" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
