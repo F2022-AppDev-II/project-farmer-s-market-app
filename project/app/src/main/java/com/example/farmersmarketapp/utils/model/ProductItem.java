@@ -9,6 +9,8 @@ public class ProductItem implements Parcelable {
 
     private Product product;
 
+    private int Id;
+
     private String productName;
 
     private String harvestByFarmer;
@@ -20,6 +22,9 @@ public class ProductItem implements Parcelable {
     private Integer image;
 
     private double price;
+
+    //Temporarily there so id increments automatically
+    static private int IdIncrementer;
 
     public ProductItem(Product product, Integer image){
         this.product = product;
@@ -38,6 +43,7 @@ public class ProductItem implements Parcelable {
         this.category = category;
         this.image = image;
         this.price = price;
+
     }
 
     protected ProductItem(Parcel in) {
@@ -60,6 +66,7 @@ public class ProductItem implements Parcelable {
             return new ProductItem[size];
         }
     };
+    public int getId(){return this.Id;}
 
     public String getProductName() {
         return productName;
