@@ -43,7 +43,6 @@ public class ProductItem implements Parcelable {
         this.category = category;
         this.image = image;
         this.price = price;
-
     }
 
     protected ProductItem(Parcel in) {
@@ -133,6 +132,16 @@ public class ProductItem implements Parcelable {
 
     public Product getProduct() {
         return product;
+    }
+
+    public void setProduct(Product product){
+        this.product = product;
+        this.productName = product.getProductName();
+        this.description = product.getDescription();
+        this.harvestByFarmer = product.getHarvestByFarmer();
+        this.category = product.getCategory();
+        this.image = product.getImage();
+        this.price = product.getPrice();
     }
 }
 

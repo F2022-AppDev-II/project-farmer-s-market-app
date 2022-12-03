@@ -11,8 +11,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.farmersmarketapp.db.models.CartItem;
 import com.example.farmersmarketapp.db.models.Product;
+import com.example.farmersmarketapp.enums.ImageType;
+import com.example.farmersmarketapp.enums.ProductCategory;
 
-@Database(entities = {Product.class, CartItem.class}, version = 2, exportSchema = true)
+@Database(entities = {Product.class, CartItem.class}, version = 7, exportSchema = true)
 public abstract class FarmerRoomDatabase extends RoomDatabase {
 
     public abstract ProductDao productDao();
@@ -45,12 +47,35 @@ public abstract class FarmerRoomDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>{
 
-        PopulateDbAsync(FarmerRoomDatabase db){
+        private ProductDao productDao;
+        private CartItemDao cartItemDao;
 
+        private static Product[] products = {
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+        };
+
+        PopulateDbAsync(FarmerRoomDatabase db){
+            productDao = db.productDao();
+            cartItemDao = db.cartItemDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+
+            if (productDao.getAnyProduct().length == 0){
+                for (int i = 0; i < products.length; i++){
+                    Product p = products[i];
+                    productDao.insert(p);
+                }
+            }
             return null;
         }
     }

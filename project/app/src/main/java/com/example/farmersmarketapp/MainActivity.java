@@ -1,9 +1,24 @@
 package com.example.farmersmarketapp;
 
+import static com.example.farmersmarketapp.UpdateProductActivity.EXTRA_UPDATE_PRODUCT_ID;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,17 +28,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersmarketapp.db.FarmerViewModel;
+import com.example.farmersmarketapp.db.models.Product;
 import com.example.farmersmarketapp.enums.ProductCategory;
 import com.example.farmersmarketapp.utils.adapter.ProductItemAdapter;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 import com.example.farmersmarketapp.views.DetailedActivity;
 import com.example.farmersmarketapp.views.SettingsActivity;
 import com.example.farmersmarketapp.views.ShoppingCartActivity;
+import com.example.farmersmarketapp.enums.ImageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +47,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ProductItemAdapter.ProductClickedListeners {
 
+    public static final int EXTRA_UPDATE_PRODUCT_REQUEST = 1337;
+
     private RecyclerView recyclerView;
     private List<ProductItem> productItems;
     private ProductItemAdapter productAdapter;
     private FarmerViewModel cartViewModel;
 
     private SharedPreferences sharedPreferences;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +68,44 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initializeVariable();
-        setUpList();
-        productAdapter.setProductItems(productItems);
+
         productAdapter.setAdminModeSetting(sharedPreferences.getBoolean(SettingsActivity.ADMIN_MODE, false));
         recyclerView.setAdapter(productAdapter);
+
+        cartViewModel.getAllProducts().observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> products) {
+                setUpList(products);
+                productAdapter.setProductItems(productItems);
+            }
+        });
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK){
+                            // Update ProductItem
+                            if (result.getData().getExtras().getInt(EXTRA_UPDATE_PRODUCT_ID) == EXTRA_UPDATE_PRODUCT_REQUEST){
+                                ProductItem item = result.getData().getParcelableExtra("productItemResult");
+                                int position = result.getData().getIntExtra("positionResult", -1);
+                                Product newProduct = new Product(
+                                        result.getData().getIntExtra("product_id", -1),
+                                        result.getData().getStringExtra("product_name"),
+                                        result.getData().getStringExtra("product_desc"),
+                                        result.getData().getStringExtra("product_harv"),
+                                        result.getData().getIntExtra("product_category", -1),
+                                        result.getData().getIntExtra("product_image", -1),
+                                        result.getData().getDoubleExtra("product_price", 0.00)
+                                );
+                                cartViewModel.updateProduct(newProduct);
+                                productAdapter.updateProductItem(newProduct, position);
+                            }
+                        }
+                    }
+                }
+        );
     }
 
     @Override
@@ -91,19 +144,30 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     }
 
 
-    private  void setUpList(){
+    private void setUpList(List<Product> products){
         productItems = new ArrayList<>();
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
-        productItems.add(new ProductItem("Apple", "Bob", "apple",ProductCategory.FRUIT.ordinal(), R.drawable.apple, 1.99));
+        Integer image = null;
+
+        for (Product product : products) {
+            switch (product.getImage()){
+                case 0:
+                    image = R.drawable.apple;
+                    break;
+                case 1:
+                    image = R.drawable.apple;
+                    break;
+                case 2:
+                    image = R.drawable.apple;
+                    break;
+                case 3:
+                    image = R.drawable.apple;
+                    break;
+                default:
+                    image = null;
+                    break;
+            }
+            productItems.add(new ProductItem(product, image));
+        }
     }
 
     private void initializeVariable() {
@@ -146,14 +210,16 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     }
 
     @Override
-    public void onUpdateProductItem(ProductItem productItem) {
+    public void onUpdateProductItem(ProductItem productItem, int position) {
         Intent intent = new Intent(MainActivity.this, UpdateProductActivity.class);
         intent.putExtra("productItem", productItem);
-        startActivity(intent);
+        intent.putExtra("position", position);
+        intent.putExtra("id", productItem.getProduct().getId());
+        activityResultLauncher.launch(intent);
     }
 
     @Override
     public void onDeleteProductItem(ProductItem productItem) {
-
+        cartViewModel.deleteProduct(productItem.getProduct());
     }
 }

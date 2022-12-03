@@ -32,17 +32,16 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
     private List<ProductItem> productItemsList;
     private ProductClickedListeners productClickedListeners;
-    private FarmerViewModel viewModel;
     private Context ctx;
 
     public ProductItemAdapter(ProductClickedListeners productClickedListeners, Context ctx){
         this.productClickedListeners = productClickedListeners;
-        this.viewModel = viewModel;
         this.ctx = ctx;
     }
 
     public void setProductItems(List<ProductItem> productItemsList) {
         this.productItemsList = productItemsList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -92,7 +91,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch (menuItem.getItemId()){
                             case R.id.admin_update:
-                                productClickedListeners.onUpdateProductItem(productItem);
+                                productClickedListeners.onUpdateProductItem(productItem, holder.getAdapterPosition());
                                 return true;
                             case R.id.admin_delete:
                                 productClickedListeners.onDeleteProductItem(productItem);
@@ -102,8 +101,14 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                         return false;
                     }
                 });
+                popupMenu.show();
             }
         });
+    }
+
+    public void updateProductItem(Product product, int position){
+        productItemsList.get(position).setProduct(product);
+        notifyItemChanged(position);
     }
 
     public void setAdminModeSetting(boolean isAdmin){
@@ -139,7 +144,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
         void onAddToCartBtnClicked(ProductItem productItem);
 
-        void onUpdateProductItem(ProductItem productItem);
+        void onUpdateProductItem(ProductItem productItem, int position);
         void onDeleteProductItem(ProductItem productItem);
     }
 }
