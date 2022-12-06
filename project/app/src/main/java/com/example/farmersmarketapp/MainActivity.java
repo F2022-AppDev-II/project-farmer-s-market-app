@@ -5,6 +5,7 @@ import static com.example.farmersmarketapp.UpdateProductActivity.EXTRA_UPDATE_PR
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -14,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
     public static final int EXTRA_UPDATE_PRODUCT_REQUEST = 1337;
 
+    private ConstraintLayout layout;
+
     private RecyclerView recyclerView;
     private List<ProductItem> productItems;
     private ProductItemAdapter productAdapter;
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initializeVariable();
+        setBackgroundColor();
 
         productAdapter.setAdminModeSetting(sharedPreferences.getBoolean(SettingsActivity.ADMIN_MODE, false));
         recyclerView.setAdapter(productAdapter);
@@ -173,6 +178,8 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     private void initializeVariable() {
         productItems =new ArrayList<>();
 
+        layout = findViewById(R.id.constraintLayout);
+
         recyclerView = findViewById(R.id.mainRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -221,5 +228,31 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     @Override
     public void onDeleteProductItem(ProductItem productItem) {
         cartViewModel.deleteProduct(productItem.getProduct());
+    }
+
+    public void setBackgroundColor(){
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH);
+
+        if (month == Calendar.JANUARY
+            || month == Calendar.FEBRUARY
+            || month == Calendar.DECEMBER){
+            layout.setBackgroundColor(getResources().getColor(R.color.winter));
+        }
+        else if (month == Calendar.MARCH
+                || month == Calendar.APRIL
+                || month == Calendar.MAY){
+            layout.setBackgroundColor(getResources().getColor(R.color.spring));
+        }
+        else if (month == Calendar.JUNE
+                || month == Calendar.JULY
+                || month == Calendar.AUGUST){
+            layout.setBackgroundColor(getResources().getColor(R.color.summer));
+        }
+        else if (month == Calendar.SEPTEMBER
+                || month == Calendar.OCTOBER
+                || month == Calendar.NOVEMBER){
+            layout.setBackgroundColor(getResources().getColor(R.color.fall));
+        }
     }
 }
