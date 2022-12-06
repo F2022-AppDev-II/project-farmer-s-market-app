@@ -14,7 +14,7 @@ import com.example.farmersmarketapp.db.models.Product;
 import com.example.farmersmarketapp.enums.ImageType;
 import com.example.farmersmarketapp.enums.ProductCategory;
 
-@Database(entities = {Product.class, CartItem.class}, version = 7, exportSchema = true)
+@Database(entities = {Product.class, CartItem.class}, version = 15, exportSchema = true)
 public abstract class FarmerRoomDatabase extends RoomDatabase {
 
     public abstract ProductDao productDao();
@@ -30,6 +30,7 @@ public abstract class FarmerRoomDatabase extends RoomDatabase {
                             FarmerRoomDatabase.class, "farmer_database")
                             .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)
+                            .allowMainThreadQueries()
                             .build();
                 }
             }
@@ -52,14 +53,14 @@ public abstract class FarmerRoomDatabase extends RoomDatabase {
 
         private static Product[] products = {
                 new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Nick", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "David", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Pops", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Big Mama", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Luffy", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Tony", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Oliver", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple", "apple", "Bobby", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
         };
 
         PopulateDbAsync(FarmerRoomDatabase db){

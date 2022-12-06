@@ -20,7 +20,9 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+
 import androidx.preference.PreferenceManager;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +36,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersmarketapp.db.FarmerViewModel;
+import com.example.farmersmarketapp.db.models.CartItem;
 import com.example.farmersmarketapp.db.models.Product;
 import com.example.farmersmarketapp.enums.ProductCategory;
 import com.example.farmersmarketapp.utils.adapter.ProductItemAdapter;
@@ -56,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     private RecyclerView recyclerView;
     private List<ProductItem> productItems;
     private ProductItemAdapter productAdapter;
-    private FarmerViewModel cartViewModel;
+    private FarmerViewModel farmerViewModel;
+    private List<CartItem> productCartList;
 
     private SharedPreferences sharedPreferences;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -67,17 +71,24 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         setContentView(R.layout.activity_main);
 
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
-        cartViewModel = new ViewModelProvider(this).get(FarmerViewModel.class);
+        farmerViewModel = new ViewModelProvider(this).get(FarmerViewModel.class);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initializeVariable();
         setBackgroundColor();
 
+        farmerViewModel.getAllCartItems().observe(this, new Observer<List<CartItem>>() {
+            @Override
+            public void onChanged(List<CartItem> cartItems) {
+                productCartList.addAll(cartItems);
+            }
+        });
+
         productAdapter.setAdminModeSetting(sharedPreferences.getBoolean(SettingsActivity.ADMIN_MODE, false));
         recyclerView.setAdapter(productAdapter);
 
-        cartViewModel.getAllProducts().observe(this, new Observer<List<Product>>() {
+        farmerViewModel.getAllProducts().observe(this, new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> products) {
                 setUpList(products);
@@ -104,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
                                         result.getData().getIntExtra("product_image", -1),
                                         result.getData().getDoubleExtra("product_price", 0.00)
                                 );
-                                cartViewModel.updateProduct(newProduct);
+                                farmerViewModel.updateProduct(newProduct);
                                 productAdapter.updateProductItem(newProduct, position);
                             }
                         }
@@ -176,6 +187,8 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     }
 
     private void initializeVariable() {
+        productCartList = new ArrayList<>();
+        farmerViewModel = new ViewModelProvider(this).get(FarmerViewModel.class);
         productItems =new ArrayList<>();
 
         layout = findViewById(R.id.constraintLayout);
@@ -214,6 +227,36 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     public void onAddToCartBtnClicked(ProductItem productItem) {
         //Add item to cart DB
 //        CartItemRepository cartDb = Room.databaseBuilder(getApplicationContext(), CartItemDao.class)
+//
+        CartItem cartItem =  new CartItem();
+        cartItem.setProductId(productItem.getId());
+        cartItem.setProductName(productItem.getProductName());
+        cartItem.setSoldBy(productItem.getHarvestByFarmer());
+        cartItem.setLineTotal(productItem.getPrice());
+        cartItem.setImage(productItem.getImage());
+
+        //check if the produclist is not empty
+        if (productCartList.size() > 0){
+            //check if the product is already in the cart
+            for (CartItem item : productCartList){
+                if (item.getProductId() == productItem.getId()){
+                    //if the product is already in the cart, update the quantity
+                    item.setQuantity(item.getQuantity() + 1);
+                    item.setLineTotal(item.getLineTotal() + productItem.getPrice());
+                    farmerViewModel.updateCartItem(item);
+                    return;
+                }
+            }
+            farmerViewModel.insertCartItem(cartItem);
+        }
+        else{
+            //if the product is not in the cart, add it to the cart
+            cartItem.setQuantity(1);
+            farmerViewModel.insertCartItem(cartItem);
+        }
+        //toast
+        Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -227,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
     @Override
     public void onDeleteProductItem(ProductItem productItem) {
-        cartViewModel.deleteProduct(productItem.getProduct());
+        farmerViewModel.deleteProduct(productItem.getProduct());
     }
 
     public void setBackgroundColor(){

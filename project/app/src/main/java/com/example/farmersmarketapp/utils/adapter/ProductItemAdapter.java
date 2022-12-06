@@ -74,6 +74,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             }
         });
 
+
+
+
         if (ADMIN_MODE){
             holder.adminSettings.setVisibility(View.VISIBLE);
         }
