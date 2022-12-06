@@ -26,6 +26,26 @@ public class CartItem {
     @ColumnInfo(name = "lineTotal")
     private double lineTotal;
 
+
+    @ColumnInfo(name = "Image")
+    private int image;
+
+    @ColumnInfo(name = "SoldBy")
+    private String SoldBy;
+
+    @ColumnInfo(name = "=productName")
+    private String productName;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public CartItem(){
+    }
     public CartItem(int productId, int quantity){
         this.productId = productId;
         this.quantity = quantity;
@@ -36,6 +56,14 @@ public class CartItem {
         this.id = id;
         this.productId = productId;
         this.quantity = quantity;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 
     public int getId() {
@@ -52,6 +80,14 @@ public class CartItem {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+    public String getSoldBy() {
+        return SoldBy;
+    }
+
+    public void setSoldBy(String soldBy) {
+        SoldBy = soldBy;
     }
 
     public int getQuantity() {
