@@ -126,18 +126,22 @@ public class UpdateProductActivity extends AppCompatActivity {
                 category.check(R.id.update_category_vegetable);
                 break;
         }
+        // Uses the images from the Parcelable, not the product itself.
         switch (productItem.getImage()){
-            default:
+            case R.drawable.apple:
                 image.check(R.id.update_image_apple);
                 break;
-            case 1:
+            case R.drawable.orange:
                 image.check(R.id.update_image_orange);
                 break;
-            case 2:
+            case R.drawable.carrots:
                 image.check(R.id.update_image_carrot);
                 break;
-            case 3:
+            case R.drawable.broccoli:
                 image.check(R.id.update_image_broccoli);
+                break;
+            default:
+                image.clearCheck();
                 break;
         }
     }

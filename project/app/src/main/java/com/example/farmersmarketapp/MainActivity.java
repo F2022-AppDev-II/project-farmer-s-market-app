@@ -165,13 +165,13 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
                     image = R.drawable.apple;
                     break;
                 case 1:
-                    image = R.drawable.apple;
+                    image = R.drawable.orange;
                     break;
                 case 2:
-                    image = R.drawable.apple;
+                    image = R.drawable.carrots;
                     break;
                 case 3:
-                    image = R.drawable.apple;
+                    image = R.drawable.broccoli;
                     break;
                 default:
                     image = null;
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     @Override
     public void onCardClicked(ProductItem productItem) {
         Intent intent = new Intent(MainActivity.this, DetailedActivity.class);
-        intent.putExtra("productItem", productItem);
+        intent.putExtra(DetailedActivity.PRODUCT_ITEM_KEY, productItem);
 
         //Before starting activity save the item clicked
 

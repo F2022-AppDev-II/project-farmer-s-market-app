@@ -33,8 +33,13 @@ public class ProductRepository extends GenericRepository<Product> {
         return this.allViewedProducts;
     }
 
-    public LiveData<List<Product>> getAllByCategory(ProductCategory category){
-        return productDao.getAllByCategory(category.ordinal());
+    public Product getRandomProductFromCategory(int category, int id){
+        Product[] products = productDao.getProductFromCategory(category, id);
+
+        if (products != null && products.length > 0){
+            return products[0];
+        }
+        return null;
     }
 
     public Product getProduct(int id){

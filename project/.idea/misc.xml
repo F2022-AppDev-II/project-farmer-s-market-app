@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Semester5/AppDev2/Project/project-farmer-s-market-app/project/app/src/main/res/layout/activity_detailed.xml" value="0.36666666666666664" />
         <entry key="..\:/Semester5/AppDev2/Project/project-farmer-s-market-app/project/app/src/main/res/layout/activity_main.xml" value="0.2171875" />
         <entry key="..\:/Semester5/AppDev2/Project/project-farmer-s-market-app/project/app/src/main/res/layout/activity_update_product.xml" value="0.2171875" />
         <entry key="..\:/Users/1783364/Desktop/project-farmer-s-market-app/project/app/src/main/res/layout/activity_detailed.xml" value="0.2857789855072464" />
@@ -16,8 +17,6 @@
         <entry key="..\:/Users/2044199/Desktop/AppDevProject/project/app/src/main/res/menu/main_menu.xml" value="0.3625" />
         <entry key="..\:/Users/2044199/Desktop/AppDevProject/project/app/src/main/res/xml/preferences.xml" value="0.3625" />
         <entry key="..\:/Users/2044199/Desktop/AppDevProject/project/app/src/main/res/xml/root_preferences.xml" value="0.3625" />
-        <entry key="..\:/Users/Gorav/Documents/GitHub/AppDev2/project-farmer-s-market-appFinal/project/app/src/main/res/layout/activity_shopping_cart.xml" value="0.1" />
-        <entry key="..\:/Users/Gorav/Documents/GitHub/AppDev2/project-farmer-s-market-appFinal/project/app/src/main/res/layout/each_cart_item.xml" value="0.335" />
       </map>
     </option>
   </component>
