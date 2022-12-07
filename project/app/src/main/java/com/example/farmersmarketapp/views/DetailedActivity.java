@@ -24,12 +24,11 @@ public class DetailedActivity extends AppCompatActivity {
 
     private ImageView productImage;
     private TextView productName, productPrice, productSoldBy, productDescription;
-    private CardView productCardView;
     private AppCompatButton addToCartBtn;
     private ProductItem productItem;
     private FarmerViewModel farmerViewModel;
     private List<CartItem> productCartList;
-
+    private int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +36,7 @@ public class DetailedActivity extends AppCompatActivity {
 
 
         productItem = getIntent().getParcelableExtra("productItem");
+
         initializeVariable();
 
         farmerViewModel.getAllCartItems().observe(this, new Observer<List<CartItem>>() {
@@ -66,27 +66,27 @@ public class DetailedActivity extends AppCompatActivity {
         cartItem.setSoldBy(productItem.getHarvestByFarmer());
         cartItem.setLineTotal(productItem.getPrice());
         cartItem.setImage(productItem.getImage());
-        farmerViewModel.insertCartItem(cartItem);
+        //check if the produclist is not empty
+        if (productCartList.size() > 0){
+            //check if the product is already in the cart
+            for (CartItem item : productCartList){
+                if (item.getProductId() == productItem.getId()){
+                    //if the product is already in the cart, update the quantity
+                    item.setQuantity(item.getQuantity() + 1);
+                    item.setLineTotal(item.getLineTotal() + productItem.getPrice());
+                    farmerViewModel.updateCartItem(item);
+                    return;
+                }
 
-//        //check if the produclist is not empty
-//        if (productCartList.size() > 0){
-//            //check if the product is already in the cart
-//            for (CartItem item : productCartList){
-//                if (item.getProductId() == productItem.getId()){
-//                    //if the product is already in the cart, update the quantity
-//                    item.setQuantity(item.getQuantity() + 1);
-//                    item.setLineTotal(item.getLineTotal() + productItem.getPrice());
-//                    farmerViewModel.updateCartItem(item);
-//                    return;
-//                }
-//            }
-//            farmerViewModel.insertCartItem(cartItem);
-//        }
-//        else{
-//            //if the product is not in the cart, add it to the cart
-//            cartItem.setQuantity(1);
-//            farmerViewModel.insertCartItem(cartItem);
-//        }
+            }
+            cartItem.setQuantity(1);
+            farmerViewModel.insertCartItem(cartItem);
+        }
+        else{
+            //if the product is not in the cart, add it to the cart
+            cartItem.setQuantity(1);
+            farmerViewModel.insertCartItem(cartItem);
+        }
 //        //toast
         Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
 

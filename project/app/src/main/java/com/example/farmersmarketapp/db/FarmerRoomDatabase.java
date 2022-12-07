@@ -14,7 +14,7 @@ import com.example.farmersmarketapp.db.models.Product;
 import com.example.farmersmarketapp.enums.ImageType;
 import com.example.farmersmarketapp.enums.ProductCategory;
 
-@Database(entities = {Product.class, CartItem.class}, version = 15, exportSchema = true)
+@Database(entities = {Product.class, CartItem.class}, version = 20, exportSchema = true)
 public abstract class FarmerRoomDatabase extends RoomDatabase {
 
     public abstract ProductDao productDao();

@@ -42,6 +42,7 @@ public class ProductItem implements Parcelable {
         category = in.readInt();
         image = in.readInt();
         price = in.readDouble();
+        Id = in.readInt();
     }
 
     public static final Creator<ProductItem> CREATOR = new Creator<ProductItem>() {
@@ -118,6 +119,7 @@ public class ProductItem implements Parcelable {
         parcel.writeInt(category);
         parcel.writeInt(image);
         parcel.writeDouble(price);
+        parcel.writeInt(Id);
     }
 
     public Product getProduct() {
@@ -132,6 +134,7 @@ public class ProductItem implements Parcelable {
         this.category = product.getCategory();
         this.image = product.getImage();
         this.price = product.getPrice();
+        this.Id = product.getId();
     }
 }
 
