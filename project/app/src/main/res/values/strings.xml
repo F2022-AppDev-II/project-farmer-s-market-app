@@ -25,4 +25,22 @@
     <string name="notification_title">Order Confirm!</string>
     <string name="notification_text">Your order has been confirmed. Thank you for your purchase!</string>
     <string name="update">Update Notification</string>
+    <string name="no_filter">No Filter</string>
+    <string name="fruit">Fruit</string>
+    <string name="vegetable">Vegetable</string>
+    <string name="product_name">Product Name</string>
+    <string name="farmer">Farmer</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="image">Image</string>
+    <string name="apple">Apple</string>
+    <string name="orange">Orange</string>
+    <string name="carrot">Carrot</string>
+    <string name="broccoli">Broccoli</string>
+    <string name="price">Price</string>
+    <string name="confirm_edit">Confirm Edit</string>
+    <string name="total">Total :</string>
+    <string name="checkout">Checkout</string>
+    <string name="your_order_has_been_placed">Your Order has been placed</string>
+    <string name="add_to_cart">Add to Cart</string>
 </resources>

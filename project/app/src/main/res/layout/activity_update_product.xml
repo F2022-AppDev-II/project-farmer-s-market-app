@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UpdateProductActivity">
+    tools:context=".views.UpdateProductActivity">
 
     <EditText
         android:id="@+id/update_productName_input"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="Product Name"
+        android:hint="@string/product_name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Farmer"
+        android:hint="@string/farmer"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Description"
+        android:hint="@string/description"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="220dp"
-        android:text="Category"
+        android:text="@string/category"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -66,13 +66,13 @@
             android:id="@+id/update_category_fruit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fruit" />
+            android:text="@string/fruit" />
 
         <RadioButton
             android:id="@+id/update_category_vegetable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vegetable" />
+            android:text="@string/vegetable" />
 
     </RadioGroup>
 
@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
         android:layout_marginEnd="32dp"
-        android:text="Image"
+        android:text="@string/image"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -100,25 +100,25 @@
             android:id="@+id/update_image_apple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apple" />
+            android:text="@string/apple" />
 
         <RadioButton
             android:id="@+id/update_image_orange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Orange" />
+            android:text="@string/orange" />
 
         <RadioButton
             android:id="@+id/update_image_carrot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Carrot" />
+            android:text="@string/carrot" />
 
         <RadioButton
             android:id="@+id/update_image_broccoli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Broccoli" />
+            android:text="@string/broccoli" />
     </RadioGroup>
 
     <EditText
@@ -127,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
         android:ems="10"
-        android:hint="Price"
+        android:hint="@string/price"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.223"
@@ -139,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="Confirm Edit"
+        android:text="@string/confirm_edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

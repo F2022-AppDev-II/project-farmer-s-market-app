@@ -71,7 +71,6 @@ public class ShoppingCartActivity extends AppCompatActivity implements CartAdapt
                 totalCartPriceTv.setVisibility(View.INVISIBLE);
                 cardView.setVisibility(View.VISIBLE);
                 sendNotification();
-                farmerViewModel.deleteAllCartItems();
             }
         });
     }

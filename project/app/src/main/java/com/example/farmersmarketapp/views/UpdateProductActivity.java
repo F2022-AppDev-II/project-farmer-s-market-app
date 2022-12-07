@@ -1,4 +1,4 @@
-package com.example.farmersmarketapp;
+package com.example.farmersmarketapp.views;
 
 import static com.example.farmersmarketapp.MainActivity.EXTRA_UPDATE_PRODUCT_REQUEST;
 
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.example.farmersmarketapp.R;
 import com.example.farmersmarketapp.db.models.Product;
 import com.example.farmersmarketapp.enums.ImageType;
 import com.example.farmersmarketapp.enums.ProductCategory;

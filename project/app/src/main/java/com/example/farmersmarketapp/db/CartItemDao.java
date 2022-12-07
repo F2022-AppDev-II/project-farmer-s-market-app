@@ -20,9 +20,6 @@ public abstract class CartItemDao extends GenericDao<CartItem> {
         super(TABLE_NAME);
     }
 
-    @Override
-    public int doDeleteAll(SimpleSQLiteQuery sqLiteQuery) {return 0;}
-
     @Query("SELECT * FROM " + TABLE_NAME)
     public abstract LiveData<List<CartItem>> getAll();
 

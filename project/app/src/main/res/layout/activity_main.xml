@@ -47,6 +47,37 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </Toolbar>
 
+        <RadioGroup
+            android:id="@+id/filter_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/mainRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <RadioButton
+                android:id="@+id/filter_none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_filter" />
+
+            <RadioButton
+                android:id="@+id/filter_fruit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fruit" />
+
+            <RadioButton
+                android:id="@+id/filter_vegetable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/vegetable" />
+        </RadioGroup>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mainRecyclerView"
             android:layout_width="0dp"
@@ -55,8 +86,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/filter_group" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

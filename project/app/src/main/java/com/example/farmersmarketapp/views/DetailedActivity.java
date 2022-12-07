@@ -71,7 +71,7 @@ public class DetailedActivity extends AppCompatActivity {
         cartItem.setSoldBy(productItem.getHarvestByFarmer());
         cartItem.setLineTotal(productItem.getPrice());
         cartItem.setImage(productItem.getImage());
-        //check if the produclist is not empty
+        //check if the product list is not empty
         if (productCartList.size() > 0){
             //check if the product is already in the cart
             for (CartItem item : productCartList){
@@ -97,7 +97,7 @@ public class DetailedActivity extends AppCompatActivity {
             startActivity(intent);
         }
 //        //toast
-        //Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -106,6 +106,7 @@ public class DetailedActivity extends AppCompatActivity {
         productSoldBy.setText(productItem.getHarvestByFarmer());
         productPrice.setText(String.valueOf(productItem.getPrice()));
         productImage.setImageResource(productItem.getImage());
+        productDescription.setText(productItem.getDescription());
 
         Product product = farmerViewModel.getProductFromCategory(productItem.getCategory(), productItem.getId());
         if (product != null){

@@ -33,6 +33,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
     private static boolean ADMIN_MODE;
 
     private List<ProductItem> productItemsList;
+    private List<ProductItem> fullList;
     private ProductClickedListeners productClickedListeners;
     private Context ctx;
 
@@ -43,6 +44,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
     public void setProductItems(List<ProductItem> productItemsList) {
         this.productItemsList = productItemsList;
+        this.fullList = productItemsList;
         notifyDataSetChanged();
     }
 
@@ -117,10 +119,15 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         notifyItemChanged(position);
     }
 
+    public void unfilterList(){
+        productItemsList = fullList;
+        notifyDataSetChanged();
+    }
+
     public void filterListByCategory(ProductCategory category){
         List<ProductItem> filteredList = new ArrayList<>();
 
-        for (ProductItem item : productItemsList){
+        for (ProductItem item : fullList){
             if (item.getCategory() == category.ordinal()){
                 filteredList.add(item);
             }

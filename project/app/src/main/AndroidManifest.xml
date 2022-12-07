@@ -14,7 +14,7 @@
         android:theme="@style/Theme.FarmersMarketApp"
         tools:targetApi="31">
         <activity
-            android:name=".UpdateProductActivity"
+            android:name=".views.UpdateProductActivity"
             android:exported="false" />
         <activity
             android:name=".views.ShoppingCartActivity"

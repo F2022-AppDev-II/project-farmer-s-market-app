@@ -1,16 +1,11 @@
 package com.example.farmersmarketapp;
 
-import static com.example.farmersmarketapp.UpdateProductActivity.EXTRA_UPDATE_PRODUCT_ID;
+import static com.example.farmersmarketapp.views.UpdateProductActivity.EXTRA_UPDATE_PRODUCT_ID;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.icu.util.Calendar;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -18,13 +13,13 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 
 import androidx.preference.PreferenceManager;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,11 +30,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.farmersmarketapp.db.FarmerViewModel;
 import com.example.farmersmarketapp.db.models.CartItem;
 import com.example.farmersmarketapp.db.models.Product;
+import com.example.farmersmarketapp.enums.ProductCategory;
 import com.example.farmersmarketapp.utils.adapter.ProductItemAdapter;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 import com.example.farmersmarketapp.views.DetailedActivity;
 import com.example.farmersmarketapp.views.SettingsActivity;
 import com.example.farmersmarketapp.views.ShoppingCartActivity;
+import com.example.farmersmarketapp.views.UpdateProductActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     private ProductItemAdapter productAdapter;
     private FarmerViewModel farmerViewModel;
     private List<CartItem> productCartList;
+    private RadioGroup categoryFilter;
 
     private SharedPreferences sharedPreferences;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -71,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
         initializeVariable();
         setBackgroundColorBySeason();
+        categoryFilter.check(R.id.filter_none);
 
         farmerViewModel.getAllCartItems().observe(this, new Observer<List<CartItem>>() {
             @Override
@@ -81,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
         productAdapter.setAdminModeSetting(sharedPreferences.getBoolean(SettingsActivity.ADMIN_MODE, false));
         recyclerView.setAdapter(productAdapter);
+
 
         farmerViewModel.getAllProducts().observe(this, new Observer<List<Product>>() {
             @Override
@@ -117,6 +117,27 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
                     }
                 }
         );
+
+        categoryFilter.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                switch (i){
+                    // No filter
+                    case R.id.filter_none:
+                        productAdapter.unfilterList();
+                        break;
+                    // Filter list with Fruit
+                    case R.id.filter_fruit:
+                        productAdapter.filterListByCategory(ProductCategory.FRUIT);
+                        break;
+                    // Filter list with Vegetable
+                    case R.id.filter_vegetable:
+                        productAdapter.filterListByCategory(ProductCategory.VEGETABLE);
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -190,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         productAdapter = new ProductItemAdapter( this, getApplicationContext());
         layout = findViewById(R.id.constraintLayout);
+        categoryFilter = findViewById(R.id.filter_group);
     }
 
     @Override
@@ -267,6 +289,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
                     return;
                 }
             }
+            cartItem.setQuantity(1);
             farmerViewModel.insertCartItem(cartItem);
         }
         else{
