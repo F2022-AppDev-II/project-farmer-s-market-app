@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.farmersmarketapp.db.generics.GenericRepository;
 import com.example.farmersmarketapp.db.models.Product;
+import com.example.farmersmarketapp.enums.ProductCategory;
 
 import java.util.List;
 
@@ -30,6 +31,10 @@ public class ProductRepository extends GenericRepository<Product> {
 
     public LiveData<List<Product>> getAllViewedProducts(){
         return this.allViewedProducts;
+    }
+
+    public LiveData<List<Product>> getAllByCategory(ProductCategory category){
+        return productDao.getAllByCategory(category.ordinal());
     }
 
     public Product getProduct(int id){

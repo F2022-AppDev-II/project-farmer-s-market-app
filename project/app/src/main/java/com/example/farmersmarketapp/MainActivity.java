@@ -6,29 +6,43 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+
 import androidx.preference.PreferenceManager;
+
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersmarketapp.db.FarmerViewModel;
 import com.example.farmersmarketapp.db.models.CartItem;
 import com.example.farmersmarketapp.db.models.Product;
+import com.example.farmersmarketapp.enums.ProductCategory;
 import com.example.farmersmarketapp.utils.adapter.ProductItemAdapter;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 import com.example.farmersmarketapp.views.DetailedActivity;
 import com.example.farmersmarketapp.views.SettingsActivity;
 import com.example.farmersmarketapp.views.ShoppingCartActivity;
+import com.example.farmersmarketapp.enums.ImageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,6 +197,10 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         Intent intent = new Intent(MainActivity.this, DetailedActivity.class);
         intent.putExtra("productItem", productItem);
 
+        //Before starting activity save the item clicked
+
+
+
         startActivity(intent);
     }
 
@@ -222,7 +240,6 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
                     return;
                 }
             }
-            cartItem.setQuantity(1);
             farmerViewModel.insertCartItem(cartItem);
         }
         else{

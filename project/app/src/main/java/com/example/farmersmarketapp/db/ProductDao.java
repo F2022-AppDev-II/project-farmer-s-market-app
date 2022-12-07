@@ -24,6 +24,9 @@ public abstract class ProductDao extends GenericDao<Product> {
     @Query("SELECT * FROM " + TABLE_NAME + " WHERE recentlyViewed = 1 ORDER BY viewedPriority DESC")
     public abstract LiveData<List<Product>> getAllRecentlyViewed();
 
+    @Query("SELECT * FROM " + TABLE_NAME + " WHERE category = :category")
+    public abstract LiveData<List<Product>> getAllByCategory(int category);
+
     @Query("SELECT * FROM " + TABLE_NAME + " WHERE id = :id")
     public abstract Product getProduct(int id);
 
