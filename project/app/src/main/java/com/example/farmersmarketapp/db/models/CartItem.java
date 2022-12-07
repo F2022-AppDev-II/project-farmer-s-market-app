@@ -36,6 +36,10 @@ public class CartItem {
     @ColumnInfo(name = "=productName")
     private String productName;
 
+    @ColumnInfo(name = "price")
+    private double price;
+
+
     public String getProductName() {
         return productName;
     }
@@ -104,5 +108,13 @@ public class CartItem {
 
     public void setLineTotal(double lineTotal) {
         this.lineTotal = lineTotal;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
