@@ -94,6 +94,7 @@ public class ShoppingCartActivity extends AppCompatActivity implements CartAdapt
         int quantity = cartItem.getQuantity() - 1;
         if (quantity != 0){
             cartItem.setLineTotal(cartItem.getLineTotal() - cartItem.getPrice());
+            cartItem.setQuantity(quantity);
             farmerViewModel.updateCartItem(cartItem);
             cartAdapter.notifyDataSetChanged();
         }else{

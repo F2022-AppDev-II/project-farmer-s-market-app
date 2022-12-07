@@ -1,5 +1,6 @@
 package com.example.farmersmarketapp.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -81,14 +82,18 @@ public class DetailedActivity extends AppCompatActivity {
             }
             cartItem.setQuantity(1);
             farmerViewModel.insertCartItem(cartItem);
+            Intent intent = new Intent(this, ShoppingCartActivity.class);
+            startActivity(intent);
         }
         else{
             //if the product is not in the cart, add it to the cart
             cartItem.setQuantity(1);
             farmerViewModel.insertCartItem(cartItem);
+            Intent intent = new Intent(this, ShoppingCartActivity.class);
+            startActivity(intent);
         }
 //        //toast
-        Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
 
     }
 
