@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         cartItem.setProductId(productItem.getId());
         cartItem.setProductName(productItem.getProductName());
         cartItem.setSoldBy(productItem.getHarvestByFarmer());
+        cartItem.setPrice(productItem.getPrice());
         cartItem.setLineTotal(productItem.getPrice());
         cartItem.setImage(productItem.getImage());
 
