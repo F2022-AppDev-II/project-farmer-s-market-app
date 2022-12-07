@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
     public static final int EXTRA_UPDATE_PRODUCT_REQUEST = 1337;
 
+    private ConstraintLayout layout;
     private RecyclerView recyclerView;
     private List<ProductItem> productItems;
     private ProductItemAdapter productAdapter;
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initializeVariable();
+        setBackgroundColorBySeason();
 
         farmerViewModel.getAllCartItems().observe(this, new Observer<List<CartItem>>() {
             @Override
@@ -185,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         productAdapter = new ProductItemAdapter( this, getApplicationContext());
+        layout = findViewById(R.id.constraintLayout);
     }
 
     @Override
@@ -197,6 +202,32 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
 
 
         startActivity(intent);
+    }
+
+    private void setBackgroundColorBySeason(){
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH);
+
+        if (month == Calendar.DECEMBER
+            || month == Calendar.JANUARY
+            || month == Calendar.FEBRUARY){
+            layout.setBackgroundColor(getResources().getColor(R.color.winter));
+        }
+        else if (month == Calendar.MARCH
+                || month == Calendar.APRIL
+                || month == Calendar.MAY){
+            layout.setBackgroundColor(getResources().getColor(R.color.spring));
+        }
+        else if (month == Calendar.JUNE
+                || month == Calendar.JULY
+                || month == Calendar.AUGUST){
+            layout.setBackgroundColor(getResources().getColor(R.color.summer));
+        }
+        else if (month == Calendar.SEPTEMBER
+                || month == Calendar.OCTOBER
+                || month == Calendar.NOVEMBER){
+            layout.setBackgroundColor(getResources().getColor(R.color.fall));
+        }
     }
 
     private void saveLastProduct(ProductItem item){
