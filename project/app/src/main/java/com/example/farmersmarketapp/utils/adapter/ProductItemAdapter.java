@@ -20,10 +20,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.farmersmarketapp.R;
 import com.example.farmersmarketapp.db.FarmerViewModel;
 import com.example.farmersmarketapp.db.models.Product;
+import com.example.farmersmarketapp.enums.ProductCategory;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.ProductItemViewHolder> {
@@ -112,6 +114,19 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
     public void updateProductItem(Product product, int position){
         productItemsList.get(position).setProduct(product);
         notifyItemChanged(position);
+    }
+
+    public void filterListByCategory(ProductCategory category){
+        List<ProductItem> filteredList = new ArrayList<>();
+
+        for (ProductItem item : productItemsList){
+            if (item.getCategory() == category.ordinal()){
+                filteredList.add(item);
+            }
+        }
+
+        productItemsList = filteredList;
+        notifyDataSetChanged();
     }
 
     public void setAdminModeSetting(boolean isAdmin){

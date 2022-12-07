@@ -53,14 +53,14 @@ public abstract class FarmerRoomDatabase extends RoomDatabase {
 
         private static Product[] products = {
                 new Product("Apple", "apple", "Bob", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Nick", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "David", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Pops", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Big Mama", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Luffy", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Tony", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Oliver", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
-                new Product("Apple", "apple", "Bobby", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Orange", "orange", "Nick", ProductCategory.FRUIT.ordinal(), ImageType.Orange.ordinal(), 1.99),
+                new Product("Carrots", "carrots", "David", ProductCategory.VEGETABLE.ordinal(), ImageType.Carrot.ordinal(), 1.99),
+                new Product("Broccoli", "broccoli", "Pops", ProductCategory.VEGETABLE.ordinal(), ImageType.Broccoli.ordinal(), 1.99),
+                new Product("Apple2", "the sequel to apple", "Big Mama", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Apple3", "apple in space", "Luffy", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
+                new Product("Orange2", "a better orange", "Tony", ProductCategory.FRUIT.ordinal(), ImageType.Orange.ordinal(), 1.99),
+                new Product("Broccoli2", "broccoli 2 electric boogaloo", "Oliver", ProductCategory.VEGETABLE.ordinal(), ImageType.Broccoli.ordinal(), 1.99),
+                new Product("Apple4", "this one is juicier", "Bobby", ProductCategory.FRUIT.ordinal(), ImageType.Apple.ordinal(), 1.99),
         };
 
         PopulateDbAsync(FarmerRoomDatabase db){

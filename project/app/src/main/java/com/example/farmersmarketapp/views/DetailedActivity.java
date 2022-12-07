@@ -3,19 +3,20 @@ package com.example.farmersmarketapp.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.farmersmarketapp.R;
 import com.example.farmersmarketapp.db.FarmerViewModel;
 import com.example.farmersmarketapp.db.models.CartItem;
+import com.example.farmersmarketapp.db.models.Product;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 
 import java.util.ArrayList;
@@ -23,9 +24,12 @@ import java.util.List;
 
 public class DetailedActivity extends AppCompatActivity {
 
+    public static final String PRODUCT_ITEM_KEY = "productItem";
+
     private ImageView productImage;
-    private TextView productName, productPrice, productSoldBy, productDescription;
+    private TextView productName, productPrice, productSoldBy, productDescription, recText;
     private AppCompatButton addToCartBtn;
+    private Button recBtn;
     private ProductItem productItem;
     private FarmerViewModel farmerViewModel;
     private List<CartItem> productCartList;
@@ -36,7 +40,7 @@ public class DetailedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed);
 
 
-        productItem = getIntent().getParcelableExtra("productItem");
+        productItem = getIntent().getParcelableExtra(PRODUCT_ITEM_KEY);
 
         initializeVariable();
 
@@ -54,12 +58,12 @@ public class DetailedActivity extends AppCompatActivity {
         addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IntertToCart();
+                insertToCart();
             }
         });
     }
 
-    private void IntertToCart() {
+    private void insertToCart() {
 
         CartItem cartItem =  new CartItem();
         cartItem.setProductId(productItem.getId());
@@ -102,6 +106,42 @@ public class DetailedActivity extends AppCompatActivity {
         productSoldBy.setText(productItem.getHarvestByFarmer());
         productPrice.setText(String.valueOf(productItem.getPrice()));
         productImage.setImageResource(productItem.getImage());
+
+        Product product = farmerViewModel.getProductFromCategory(productItem.getCategory(), productItem.getId());
+        if (product != null){
+            recText.setVisibility(View.VISIBLE);
+            recBtn.setVisibility(View.VISIBLE);
+            recBtn.setText(product.getProductName());
+            Integer image;
+            switch (product.getImage()){
+                case 0:
+                    image = R.drawable.apple;
+                    break;
+                case 1:
+                    image = R.drawable.orange;
+                    break;
+                case 2:
+                    image = R.drawable.carrots;
+                    break;
+                case 3:
+                    image = R.drawable.broccoli;
+                    break;
+                default:
+                    image = null;
+                    break;
+            }
+
+            ProductItem item = new ProductItem(product, image);
+            recBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DetailedActivity.this, DetailedActivity.class);
+                    intent.putExtra(PRODUCT_ITEM_KEY, item);
+
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void initializeVariable() {
@@ -113,6 +153,8 @@ public class DetailedActivity extends AppCompatActivity {
         productPrice = findViewById(R.id.detailActivityProductPriceTv);
         addToCartBtn = findViewById(R.id.detailActivityAddToCartBtn);
         productDescription = findViewById(R.id.detailActivityProductDetail);
+        recText = findViewById(R.id.recommended_textview);
+        recBtn = findViewById(R.id.recommended_button);
         farmerViewModel = new ViewModelProvider(this).get(FarmerViewModel.class);
     }
 }

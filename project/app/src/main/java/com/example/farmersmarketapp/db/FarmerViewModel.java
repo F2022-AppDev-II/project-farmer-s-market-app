@@ -59,6 +59,9 @@ public class FarmerViewModel extends AndroidViewModel {
     public void setProductToTopViewedPriority(Product product){
         productRepository.setToTopViewedPriority(product.getId());
     }
+    public Product getProductFromCategory(int category, int id){
+        return productRepository.getRandomProductFromCategory(category, id);
+    }
 
     // CartItem Repo
     public LiveData<List<CartItem>> getAllCartItems(){
