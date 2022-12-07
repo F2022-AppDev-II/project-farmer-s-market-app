@@ -2,33 +2,30 @@ package com.example.farmersmarketapp;
 
 import static com.example.farmersmarketapp.UpdateProductActivity.EXTRA_UPDATE_PRODUCT_ID;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
+import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.Observer;
 
 import androidx.preference.PreferenceManager;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,13 +33,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.farmersmarketapp.db.FarmerViewModel;
 import com.example.farmersmarketapp.db.models.CartItem;
 import com.example.farmersmarketapp.db.models.Product;
-import com.example.farmersmarketapp.enums.ProductCategory;
 import com.example.farmersmarketapp.utils.adapter.ProductItemAdapter;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 import com.example.farmersmarketapp.views.DetailedActivity;
 import com.example.farmersmarketapp.views.SettingsActivity;
 import com.example.farmersmarketapp.views.ShoppingCartActivity;
-import com.example.farmersmarketapp.enums.ImageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
                                         result.getData().getDoubleExtra("product_price", 0.00)
                                 );
                                 farmerViewModel.updateProduct(newProduct);
-                                productAdapter.updateProductItem(newProduct, position);
+                                Integer image = getImageResourceFromImageType(newProduct);
+                                productAdapter.updateProductItem(newProduct, position, image);
                             }
                         }
                     }
@@ -160,24 +156,23 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         Integer image = null;
 
         for (Product product : products) {
-            switch (product.getImage()){
-                case 0:
-                    image = R.drawable.apple;
-                    break;
-                case 1:
-                    image = R.drawable.orange;
-                    break;
-                case 2:
-                    image = R.drawable.carrots;
-                    break;
-                case 3:
-                    image = R.drawable.broccoli;
-                    break;
-                default:
-                    image = null;
-                    break;
-            }
+            image = getImageResourceFromImageType(product);
             productItems.add(new ProductItem(product, image));
+        }
+    }
+
+    private Integer getImageResourceFromImageType(Product product){
+        switch (product.getImage()){
+            case 0:
+                return R.drawable.apple;
+            case 1:
+                return R.drawable.orange;
+            case 2:
+                return R.drawable.carrots;
+            case 3:
+                return R.drawable.broccoli;
+            default:
+                return null;
         }
     }
 

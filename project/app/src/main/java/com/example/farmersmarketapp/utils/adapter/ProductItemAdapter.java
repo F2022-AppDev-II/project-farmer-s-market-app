@@ -111,8 +111,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         });
     }
 
-    public void updateProductItem(Product product, int position){
+    public void updateProductItem(Product product, int position, Integer image){
         productItemsList.get(position).setProduct(product);
+        productItemsList.get(position).setImage(image);
         notifyItemChanged(position);
     }
 

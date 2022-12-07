@@ -20,4 +20,9 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="recommended_text">You might also like:</string>
+    <string name="notification_channel_name">Farmer Market Notification</string>
+    <string name="notification_channel_description">Your Order has been confirmed! Thank you for your purchase.</string>
+    <string name="notification_title">Order Confirm!</string>
+    <string name="notification_text">Your order has been confirmed. Thank you for your purchase!</string>
+    <string name="update">Update Notification</string>
 </resources>
