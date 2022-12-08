@@ -36,6 +36,6 @@ public abstract class ProductDao extends GenericDao<Product> {
     @Query("SELECT COUNT(*) FROM " + TABLE_NAME)
     public abstract int getSize();
 
-    @Query("UPDATE " + TABLE_NAME + " SET viewedPriority = (SELECT MAX(viewedPriority) + 1 FROM " + TABLE_NAME + ") WHERE recentlyViewed = 1 AND id = :id")
+    @Query("UPDATE " + TABLE_NAME + " SET viewedPriority = (SELECT MAX(viewedPriority) FROM " + TABLE_NAME + ") + 1 WHERE recentlyViewed = 1 AND id = :id")
     public abstract void setToTopViewedPriority(int id);
 }
