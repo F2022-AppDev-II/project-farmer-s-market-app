@@ -17,12 +17,14 @@
             android:id="@+id/filter_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:background="@color/white"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
             app:layout_constraintBottom_toTopOf="@+id/mainRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewedRecyclerView">
 
             <RadioButton
                 android:id="@+id/filter_none"
@@ -48,20 +50,21 @@
             android:layout_width="412dp"
             android:layout_height="131dp"
             android:orientation="horizontal"
-            app:reverseLayout="true"
             app:layout_constraintBottom_toTopOf="@+id/filter_group"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:reverseLayout="true" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mainRecyclerView"
             android:layout_width="408dp"
-            android:layout_height="552dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/filter_group" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
