@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer;
 
 import androidx.preference.PreferenceManager;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RadioGroup;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.farmersmarketapp.db.FarmerViewModel;
@@ -32,6 +34,7 @@ import com.example.farmersmarketapp.db.models.CartItem;
 import com.example.farmersmarketapp.db.models.Product;
 import com.example.farmersmarketapp.enums.ProductCategory;
 import com.example.farmersmarketapp.utils.adapter.ProductItemAdapter;
+import com.example.farmersmarketapp.utils.adapter.ViewedItemAdapter;
 import com.example.farmersmarketapp.utils.model.ProductItem;
 import com.example.farmersmarketapp.views.DetailedActivity;
 import com.example.farmersmarketapp.views.SettingsActivity;
@@ -42,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements ProductItemAdapter.ProductClickedListeners {
+public class MainActivity extends AppCompatActivity implements ProductItemAdapter.ProductClickedListeners, ViewedItemAdapter.ViewedClickedListener {
 
     public static final int EXTRA_UPDATE_PRODUCT_REQUEST = 1337;
 
@@ -53,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     private FarmerViewModel farmerViewModel;
     private List<CartItem> productCartList;
     private RadioGroup categoryFilter;
+
+    private List<ProductItem> viewedItems;
+    private ViewedItemAdapter viewedItemAdapter;
+    private RecyclerView viewedItemsRecycler;
+
 
     private SharedPreferences sharedPreferences;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -82,6 +90,17 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         recyclerView.setAdapter(productAdapter);
 
 
+
+        farmerViewModel.getAllViewedProducts().observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> products) {
+                setViewedList(products);
+                viewedItemAdapter.setProductItemList(viewedItems);
+
+
+            }
+        });
+        viewedItemsRecycler.setAdapter(viewedItemAdapter);
         farmerViewModel.getAllProducts().observe(this, new Observer<List<Product>>() {
             @Override
             public void onChanged(List<Product> products) {
@@ -176,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
     }
 
 
+
     private void setUpList(List<Product> products){
         productItems = new ArrayList<>();
         Integer image = null;
@@ -183,6 +203,15 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         for (Product product : products) {
             image = getImageResourceFromImageType(product);
             productItems.add(new ProductItem(product, image));
+        }
+    }
+    private void setViewedList(List<Product> products){
+        viewedItems = new ArrayList<>();
+        Integer image = null;
+
+        for (Product product : products) {
+            image = getImageResourceFromImageType(product);
+            viewedItems.add(new ProductItem(product, image));
         }
     }
 
@@ -212,6 +241,13 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         productAdapter = new ProductItemAdapter( this, getApplicationContext());
         layout = findViewById(R.id.constraintLayout);
         categoryFilter = findViewById(R.id.filter_group);
+
+        viewedItemsRecycler = findViewById(R.id.viewedRecyclerView);
+        viewedItemsRecycler.setHasFixedSize(true);
+//        viewedItemsRecycler.setLayoutManager();
+        viewedItemsRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        viewedItemAdapter = new ViewedItemAdapter(this, getApplicationContext());
+        viewedItems = new ArrayList<>();
     }
 
     @Override
@@ -219,8 +255,10 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         Intent intent = new Intent(MainActivity.this, DetailedActivity.class);
         intent.putExtra(DetailedActivity.PRODUCT_ITEM_KEY, productItem);
 
-        //Before starting activity save the item clicked
-
+        //Setting top priority to the Item clicked
+        productItem.getProduct().setRecentlyViewed(true);
+        farmerViewModel.updateProduct(productItem.getProduct());
+        farmerViewModel.setProductToTopViewedPriority(productItem.getProduct());
 
 
         startActivity(intent);
@@ -252,23 +290,11 @@ public class MainActivity extends AppCompatActivity implements ProductItemAdapte
         }
     }
 
-    private void saveLastProduct(ProductItem item){
-        SharedPreferences sharedPref = this.getSharedPreferences("preferences", Context.MODE_PRIVATE);
 
-        //Editor
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        //Key and values stored
-        //Currently using the list, convert to use db later
-        editor.putInt("recent", item.getId());
-
-    }
 
     @Override
     public void onAddToCartBtnClicked(ProductItem productItem) {
-        //Add item to cart DB
-//        CartItemRepository cartDb = Room.databaseBuilder(getApplicationContext(), CartItemDao.class)
-//
+
         CartItem cartItem =  new CartItem();
         cartItem.setProductId(productItem.getId());
         cartItem.setProductName(productItem.getProductName());
