@@ -81,11 +81,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHodler
         public CartViewHodler(@NonNull View itemView) {
             super(itemView);
 
-            productNameTv = itemView.findViewById(R.id.eachCartItemName);
-            productSoldByTv = itemView.findViewById(R.id.eachCartItemBrandNameTv);
-            productPriceTv = itemView.findViewById(R.id.eachCartItemPriceTv);
+            productNameTv = itemView.findViewById(R.id.viewedName);
+            productSoldByTv = itemView.findViewById(R.id.viewedBrand);
+            productPriceTv = itemView.findViewById(R.id.viewedPrice);
             deleteProductBtn = itemView.findViewById(R.id.eachCartItemDeleteBtn);
-            productImageView = itemView.findViewById(R.id.eachCartItemIV);
+            productImageView = itemView.findViewById(R.id.viewedImage);
             productQuantity = itemView.findViewById(R.id.eachCartItemQuantityTV);
             addQuantityBtn = itemView.findViewById(R.id.eachCartItemAddQuantityBtn);
             minusQuantityBtn = itemView.findViewById(R.id.eachCartItemMinusQuantityBtn);
